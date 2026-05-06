@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Documentación Técnica – Proyecto Vivero Chapasan / WhatsApp API Odoo</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--verde:#2d7a3a;--verde-claro:#4aab5a;--azul:#1a6fa8;--gris:#444;--gris-claro:#f5f7f9;--borde:#dee2e6;--blanco:#fff;--rojo:#c0392b;--naranja:#e67e22}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#222;line-height:1.7;background:var(--gris-claro)}
+a{color:var(--azul);text-decoration:none}a:hover{text-decoration:underline}
+/* HEADER */
+header{background:linear-gradient(135deg,#1b3a24,var(--verde));color:#fff;padding:3rem 2rem 2rem;text-align:center}
+header h1{font-size:2.2rem;margin-bottom:.4rem}
+header p{opacity:.85;font-size:1.05rem;margin-bottom:.3rem}
+.badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:.2rem .9rem;font-size:.82rem;margin:.2rem}
+/* NAV */
+nav.toc{background:var(--blanco);border-bottom:2px solid var(--verde);padding:1rem 2rem;position:sticky;top:0;z-index:100;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+nav.toc span{font-weight:700;color:var(--verde);margin-right:.5rem;font-size:.9rem}
+nav.toc a{font-size:.85rem;color:var(--gris);background:var(--gris-claro);border:1px solid var(--borde);border-radius:20px;padding:.2rem .75rem;white-space:nowrap;transition:.2s}
+nav.toc a:hover{background:var(--verde);color:#fff;border-color:var(--verde);text-decoration:none}
+/* MAIN */
+main{max-width:1000px;margin:2rem auto;padding:0 1.5rem 4rem}
+/* SECCIONES */
+.section{background:var(--blanco);border-radius:12px;border:1px solid var(--borde);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.section-header{background:var(--verde);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:.8rem}
+.section-header .num{background:rgba(255,255,255,.2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;flex-shrink:0}
+.section-header h2{font-size:1.15rem;font-weight:700}
+.section-body{padding:1.5rem}
+/* STEPS */
+.step{display:flex;gap:1rem;margin-bottom:1.2rem;align-items:flex-start}
+.step-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+.step-content h3{font-size:1rem;color:var(--verde);margin-bottom:.2rem}
+.step-content p,.step-content li{font-size:.95rem;color:var(--gris)}
+.step-content ul{margin:.3rem 0 0 1.2rem}
+/* STATUS BADGES */
+.status{display:inline-flex;align-items:center;gap:.3rem;padding:.15rem .65rem;border-radius:20px;font-size:.78rem;font-weight:600}
+.status.ok{background:#e8f5ea;color:#2d7a3a;border:1px solid #a8d5b0}
+.status.pending{background:#fff8e1;color:#8a6400;border:1px solid #f0d060}
+.status.info{background:#e3f0fb;color:#1a5a8a;border:1px solid #90c0e8}
+/* CODE BLOCKS */
+.code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1rem 1.2rem;font-family:'Courier New',monospace;font-size:.87rem;overflow-x:auto;margin:.6rem 0;line-height:1.6}
+.code-block .key{color:#89b4fa}
+.code-block .val{color:#a6e3a1}
+.code-block .comment{color:#6c7086}
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.6rem 0}
+th{background:var(--verde);color:#fff;padding:.6rem 1rem;text-align:left;font-weight:600}
+td{padding:.55rem 1rem;border-bottom:1px solid var(--borde)}
+tr:nth-child(even) td{background:#f9fbf9}
+tr:last-child td{border-bottom:none}
+/* ALERT BOXES */
+.alert{border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;display:flex;gap:.8rem;align-items:flex-start;font-size:.93rem}
+.alert-icon{font-size:1.3rem;flex-shrink:0}
+.alert.info{background:#e3f0fb;border-left:4px solid var(--azul);color:#143d5c}
+.alert.warning{background:#fff3e0;border-left:4px solid var(--naranja);color:#6b3c00}
+.alert.success{background:#e8f5ea;border-left:4px solid var(--verde);color:#1a4a22}
+.alert.danger{background:#fdecea;border-left:4px solid var(--rojo);color:#6b1a15}
+/* ROADMAP */
+.roadmap{list-style:none;position:relative;padding-left:2rem}
+.roadmap::before{content:'';position:absolute;left:.6rem;top:0;bottom:0;width:2px;background:var(--borde)}
+.roadmap li{position:relative;margin-bottom:1.2rem;padding-left:.8rem}
+.roadmap li::before{content:'';position:absolute;left:-1.45rem;top:.45rem;width:12px;height:12px;border-radius:50%;border:2px solid var(--verde);background:var(--blanco)}
+.roadmap li.done::before{background:var(--verde)}
+.roadmap li .rm-title{font-weight:600;color:#222;font-size:.95rem}
+.roadmap li .rm-desc{font-size:.88rem;color:var(--gris);margin-top:.1rem}
+/* FOOTER */
+footer{text-align:center;padding:2rem;background:var(--blanco);border-top:1px solid var(--borde);font-size:.85rem;color:#777;margin-top:2rem}
+/* PRINT */
+@media print{nav.toc{display:none}.section{break-inside:avoid}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media(max-width:640px){header h1{font-size:1.5rem}nav.toc{display:none}main{padding:0 1rem 3rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Documentación Técnica</h1>
+  <p>Proyecto: Presencia web Vivero Chapasan + Integración WhatsApp Business API en Odoo</p>
+  <p style="margin-top:.5rem">
+    <span class="badge">📅 6 de mayo de 2026</span>
+    <span class="badge">👤 Iván Fernández Montiel</span>
+    <span class="badge">🌐 vivero.zenda-arquitectos.com</span>
+  </p>
+</header>
+
+<nav class="toc">
+  <span>Índice:</span>
+  <a href="#objetivo">Objetivo</a>
+  <a href="#contexto">Contexto</a>
+  <a href="#fase1">Fase 1 – DNS</a>
+  <a href="#fase2">Fase 2 – Email</a>
+  <a href="#fase3">Fase 3 – Sitio Web</a>
+  <a href="#fase4">Fase 4 – GitHub Pages</a>
+  <a href="#fase5">Fase 5 – DNS GitHub</a>
+  <a href="#pendientes">Pendientes</a>
+  <a href="#roadmap">Roadmap Odoo</a>
+  <a href="#credenciales">Referencia</a>
+</nav>
+
+<main>
+
+<!-- OBJETIVO -->
+<div class="section" id="objetivo">
+  <div class="section-header"><div class="num">🎯</div><h2>Objetivo del Proyecto</h2></div>
+  <div class="section-body">
+    <p style="margin-bottom:1rem;font-size:1rem">El objetivo principal es habilitar el <strong>envío de tickets de pedidos por WhatsApp</strong> desde el sistema ERP <strong>Odoo</strong> del vivero Chapasan, cumpliendo con todos los requisitos técnicos y legales que exige Meta (Facebook) para la aprobación de la <strong>WhatsApp Business API</strong>.</p>
+    <div class="alert success"><span class="alert-icon">✅</span><div>Meta requiere que el negocio tenga una <strong>página web pública y verificable</strong> con Aviso de Privacidad y Términos y Condiciones. Este proyecto cubre ese requisito de forma gratuita usando GitHub Pages y el dominio existente.</div></div>
+    <table>
+      <tr><th>Negocio</th><th>Plataforma ERP</th><th>Canal de comunicación</th><th>Dominio base</th></tr>
+      <tr><td>Vivero Chapasan</td><td>Odoo (invernadero)</td><td>WhatsApp Business API</td><td>zenda-arquitectos.com</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- CONTEXTO -->
+<div class="section" id="contexto">
+  <div class="section-header"><div class="num">📌</div><h2>Contexto y Decisiones Tomadas</h2></div>
+  <div class="section-body">
+    <div class="step">
+      <span class="step-icon">🏗️</span>
+      <div class="step-content">
+        <h3>Infraestructura existente</h3>
+        <p>Iván ya contaba con el dominio <code>zenda-arquitectos.com</code> registrado en <strong>Namecheap</strong>, alojado en <strong>Hostinger</strong> (plan Single – Website Builder) con nameservers ya apuntando a Hostinger. El dominio tiene un sitio de despacho de arquitectura activo.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">💡</span>
+      <div class="step-content">
+        <h3>Decisión: Subdominio en lugar de dominio nuevo</h3>
+        <p>Para evitar costos, se optó por crear el subdominio <strong>vivero.zenda-arquitectos.com</strong> para alojar la web del vivero. Meta acepta subdominios para la verificación del negocio.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">⚠️</span>
+      <div class="step-content">
+        <h3>Limitación descubierta: Hostinger Website Builder</h3>
+        <p>El plan Single de Hostinger (Website Builder) <strong>no incluye administrador de archivos ni FTP</strong>, y no permite agregar un segundo sitio sin costo adicional. Agregar un sitio PHP/HTML requería mejorar al plan Premium (~$80 MXN/mes).</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">🎯</span>
+      <div class="step-content">
+        <h3>Solución adoptada: GitHub Pages (gratuito)</h3>
+        <p>Se utilizó <strong>GitHub Pages</strong> para alojar la página estática del vivero. Es completamente gratuito, soporta dominios personalizados con HTTPS automático, y Meta lo reconoce como hosting legítimo para verificación.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">📧</span>
+      <div class="step-content">
+        <h3>Decisión: Alias de correo en lugar de buzón nuevo</h3>
+        <p>El plan Free Business Email de Hostinger permite solo 1 buzón (ya usado por <code>contacto@zenda-arquitectos.com</code>). Se creó un <strong>alias de correo</strong> <code>vivero@zenda-arquitectos.com</code> que redirige al buzón existente. Solución gratuita y válida para Meta.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FASE 1: DNS -->
+<div class="section" id="fase1">
+  <div class="section-header"><div class="num">1</div><h2>Fase 1 – Creación del Subdominio (DNS en Hostinger)</h2></div>
+  <div class="section-body">
+    <p style="margin-bottom:1rem">Dado que los nameservers de <code>zenda-arquitectos.com</code> ya apuntan a Hostinger, la gestión DNS se hace desde el hPanel de Hostinger en: <strong>Dominios → Portafolio de dominios → Administrar DNS</strong>.</p>
+    <div class="step">
+      <span class="step-icon">✅</span>
+      <div class="step-content">
+        <h3>Registro CNAME creado inicialmente</h3>
+        <div class="code-block"><span class="key">Tipo:</span>    <span class="val">CNAME</span><br><span class="key">Nombre:</span>  <span class="val">vivero</span><br><span class="key">Objetivo:</span> <span class="val">zenda-arquitectos.com.cdn.hstgr.net</span>  <span class="comment"># CDN Hostinger (provisional)</span><br><span class="key">TTL:</span>     <span class="val">14400</span></div>
+        <p>⚠️ Este registro fue posteriormente <strong>actualizado</strong> para apuntar a GitHub Pages (ver Fase 5).</p>
+      </div>
+    </div>
+    <div class="alert info"><span class="alert-icon">ℹ️</span><div>Ruta en Hostinger hPanel: <strong>Dominios → Portafolio de dominios → zenda-arquitectos.com → Administrar DNS</strong></div></div>
+  </div>
+</div>
+
+<!-- FASE 2: EMAIL -->
+<div class="section" id="fase2">
+  <div class="section-header"><div class="num">2</div><h2>Fase 2 – Configuración del Correo del Vivero</h2></div>
+  <div class="section-body">
+    <div class="step">
+      <span class="step-icon">✅</span>
+      <div class="step-content">
+        <h3>Alias de correo creado</h3>
+        <table>
+          <tr><th>Alias creado</th><th>Redirige a</th><th>Estado</th></tr>
+          <tr><td><strong>vivero@zenda-arquitectos.com</strong></td><td>contacto@zenda-arquitectos.com</td><td><span class="status ok">✓ Activo</span></td></tr>
+        </table>
+        <p style="margin-top:.6rem">El alias permite recibir correos del vivero sin costo adicional. Los mensajes llegan al buzón principal de Hostinger.</p>
+      </div>
+    </div>
+    <div class="alert info"><span class="alert-icon">ℹ️</span><div>Ruta en Hostinger hPanel: <strong>Emails → zenda-arquitectos.com → Alias de correo electrónico → Crear alias</strong></div></div>
+    <div class="alert warning"><span class="alert-icon">⚠️</span><div>El plan Free Business Email de Hostinger permite <strong>máximo 1 buzón</strong> y hasta 5 alias. Si en el futuro se requiere un buzón independiente para el vivero, es necesario mejorar el plan de email o crear una cuenta Google Workspace.</div></div>
+  </div>
+</div>
+
+<!-- FASE 3: SITIO WEB -->
+<div class="section" id="fase3">
+  <div class="section-header"><div class="num">3</div><h2>Fase 3 – Creación de la Página Web del Vivero</h2></div>
+  <div class="section-body">
+    <p style="margin-bottom:1rem">Se generó el archivo <code>index.html</code> — una página web completa, profesional y optimizada para la aprobación de Meta. Incluye todos los elementos requeridos:</p>
+    <table>
+      <tr><th>Sección</th><th>Contenido</th><th>Requerido por Meta</th></tr>
+      <tr><td>Hero / Inicio</td><td>Nombre, logo, slogan, descripción</td><td>✅ Sí</td></tr>
+      <tr><td>¿Quiénes somos?</td><td>Descripción del negocio</td><td>✅ Sí</td></tr>
+      <tr><td>Productos</td><td>Plántulas de jitomate, chile, pepino, hortalizas, injertos</td><td>✅ Sí</td></tr>
+      <tr><td>Especialidad en injertos</td><td>Descripción técnica del servicio</td><td>Recomendado</td></tr>
+      <tr><td>Proceso de producción</td><td>5 pasos del proceso del vivero</td><td>Recomendado</td></tr>
+      <tr><td>Visión</td><td>Misión y objetivos del vivero</td><td>Recomendado</td></tr>
+      <tr><td>Contacto</td><td>Teléfono, email, ubicación, horarios</td><td>✅ Sí</td></tr>
+      <tr><td>Aviso de Privacidad</td><td>Conforme a LFPDPPP, incluye cláusula de WhatsApp</td><td>✅ Obligatorio</td></tr>
+      <tr><td>Términos y Condiciones</td><td>Incluye consentimiento para mensajes WhatsApp</td><td>✅ Obligatorio</td></tr>
+    </table>
+    <div class="step" style="margin-top:1.2rem">
+      <span class="step-icon">📋</span>
+      <div class="step-content">
+        <h3>Datos del negocio incluidos en la página</h3>
+        <div class="code-block">
+<span class="key">Nombre:</span>       <span class="val">Vivero Chapasan</span><br>
+<span class="key">Titular:</span>      <span class="val">Iván Fernández Montiel</span><br>
+<span class="key">Actividad:</span>    <span class="val">Producción profesional de plántulas hortícolas</span><br>
+<span class="key">Ubicación:</span>    <span class="val">Tecamachalco, Puebla, México</span><br>
+<span class="key">Teléfono:</span>     <span class="val">249 151 9638</span><br>
+<span class="key">Email:</span>        <span class="val">vivero@zenda-arquitectos.com</span><br>
+<span class="key">Productos:</span>    <span class="val">Jitomate, chile, pepino, hortalizas diversas, injertos de jitomate</span>
+        </div>
+      </div>
+    </div>
+    <div class="alert success"><span class="alert-icon">📁</span><div>Archivo generado: <strong>index.html</strong> — descargado en <code>E:/Usuario/Ivan/index.html</code></div></div>
+  </div>
+</div>
+
+<!-- FASE 4: GITHUB PAGES -->
+<div class="section" id="fase4">
+  <div class="section-header"><div class="num">4</div><h2>Fase 4 – Repositorio y GitHub Pages</h2></div>
+  <div class="section-body">
+    <div class="step">
+      <span class="step-icon">✅</span>
+      <div class="step-content">
+        <h3>Repositorio creado en GitHub</h3>
+        <div class="code-block">
+<span class="key">Usuario:</span>       <span class="val">ivanfdzm</span><br>
+<span class="key">Repositorio:</span>   <span class="val">vivero-chapasan</span><br>
+<span class="key">Visibilidad:</span>   <span class="val">Public</span><br>
+<span class="key">URL:</span>           <span class="val">https://github.com/ivanfdzm/vivero-chapasan</span><br>
+<span class="key">Branch:</span>        <span class="val">main</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">✅</span>
+      <div class="step-content">
+        <h3>Archivos en el repositorio</h3>
+        <table>
+          <tr><th>Archivo</th><th>Descripción</th><th>Estado</th></tr>
+          <tr><td>index.html</td><td>Página principal del vivero</td><td><span class="status ok">✓ Subido</span></td></tr>
+          <tr><td>logo.png</td><td>Logo del vivero Chapasan</td><td><span class="status ok">✓ Subido</span></td></tr>
+          <tr><td>README.md</td><td>Descripción del repositorio</td><td><span class="status ok">✓ Auto-generado</span></td></tr>
+          <tr><td>CNAME</td><td>Dominio personalizado para GitHub Pages</td><td><span class="status ok">✓ Auto-generado</span></td></tr>
+          <tr><td>documentacion.html</td><td>Este documento</td><td><span class="status ok">✓ Subido</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-icon">✅</span>
+      <div class="step-content">
+        <h3>GitHub Pages activado</h3>
+        <div class="code-block">
+<span class="key">Source:</span>         <span class="val">Deploy from a branch</span><br>
+<span class="key">Branch:</span>         <span class="val">main</span><br>
+<span class="key">Folder:</span>         <span class="val">/ (root)</span><br>
+<span class="key">Custom domain:</span>  <span class="val">vivero.zenda-arquitectos.com</span><br>
+<span class="key">HTTPS:</span>          <span class="val">Enforce HTTPS (activo automáticamente)</span><br>
+<span class="key">URL GitHub:</span>     <span class="val">https://ivanfdzm.github.io/vivero-chapasan/</span>
+        </div>
+      </div>
+    </div>
+    <div class="alert info"><span class="alert-icon">ℹ️</span><div>Al configurar el dominio personalizado, GitHub Pages crea automáticamente el archivo <strong>CNAME</strong> en el repositorio con el contenido <code>vivero.zenda-arquitectos.com</code>.</div></div>
+  </div>
+</div>
+
+<!-- FASE 5: DNS GITHUB -->
+<div class="section" id="fase5">
+  <div class="section-header"><div class="num">5</div><h2>Fase 5 – Actualización del DNS para apuntar a GitHub Pages</h2></div>
+  <div class="section-body">
+    <p style="margin-bottom:1rem">El registro CNAME creado en Fase 1 fue actualizado para que apunte a GitHub Pages en lugar del CDN de Hostinger:</p>
+    <table>
+      <tr><th></th><th>Antes (Fase 1)</th><th>Después (Fase 5 – Final)</th></tr>
+      <tr><td><strong>Tipo</strong></td><td>CNAME</td><td>CNAME</td></tr>
+      <tr><td><strong>Nombre</strong></td><td>vivero</td><td>vivero</td></tr>
+      <tr><td><strong>Objetivo</strong></td><td>zenda-arquitectos.com.cdn.hstgr.net</td><td><strong>ivanfdzm.github.io</strong></td></tr>
+      <tr><td><strong>TTL</strong></td><td>14400</td><td>14400</td></tr>
+    </table>
+    <div class="alert success" style="margin-top:1rem"><span class="alert-icon">✅</span><div>Registro actualizado con mensaje: <strong>"Registro DNS actualizado con éxito"</strong></div></div>
+    <div class="alert warning" style="margin-top:.5rem"><span class="alert-icon">⏱️</span><div>La propagación DNS puede tardar entre <strong>10 minutos y 2 horas</strong>. El HTTPS de GitHub Pages se activa automáticamente una vez que el DNS propaga correctamente (puede tomar hasta 24h para HTTPS).</div></div>
+  </div>
+</div>
+
+<!-- PENDIENTES -->
+<div class="section" id="pendientes">
+  <div class="section-header"><div class="num">⏳</div><h2>Tareas Pendientes del Proyecto Web</h2></div>
+  <div class="section-body">
+    <table>
+      <tr><th>#</th><th>Tarea</th><th>Responsable</th><th>Estado</th></tr>
+      <tr><td>1</td><td>Subir <code>logo.png</code> al repositorio de GitHub</td><td>Iván (manual)</td><td><span class="status ok">✓ Completado</span></td></tr>
+      <tr><td>2</td><td>Esperar propagación DNS (10 min – 2 h)</td><td>Automático</td><td><span class="status pending">⏳ En proceso</span></td></tr>
+      <tr><td>3</td><td>Verificar que <code>vivero.zenda-arquitectos.com</code> carga correctamente</td><td>Iván</td><td><span class="status pending">⏳ Pendiente</span></td></tr>
+      <tr><td>4</td><td>Verificar que HTTPS está activo (candado verde en el navegador)</td><td>Iván</td><td><span class="status pending">⏳ Pendiente</span></td></tr>
+      <tr><td>5</td><td>Revisar que el logo se muestra correctamente en la página</td><td>Iván</td><td><span class="status pending">⏳ Pendiente</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ROADMAP ODOO -->
+<div class="section" id="roadmap">
+  <div class="section-header"><div class="num">🗺️</div><h2>Roadmap Completo – Objetivo Final: WhatsApp API en Odoo</h2></div>
+  <div class="section-body">
+    <p style="margin-bottom:1.2rem">Una vez que la página web esté en vivo y verificada, los siguientes pasos para completar la integración de WhatsApp Business API con Odoo son:</p>
+    <ul class="roadmap">
+      <li class="done">
+        <div class="rm-title">✅ FASE 1 — Presencia web verificable</div>
+        <div class="rm-desc">Subdominio DNS, alias de correo, página web con aviso de privacidad y T&C — <strong>Completado hoy 6 mayo 2026</strong></div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 2 — Crear cuenta en Meta Business Manager</div>
+        <div class="rm-desc">Ir a <a href="https://business.facebook.com" target="_blank">business.facebook.com</a> → Crear cuenta nueva para Vivero Chapasan (separada del despacho de arquitectura si se prefiere). Agregar URL: <code>https://vivero.zenda-arquitectos.com</code></div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 3 — Verificación del negocio en Meta</div>
+        <div class="rm-desc">En Meta Business Manager: Configuración → Centro de Seguridad → Verificar negocio. Documentos necesarios: RFC, alta en SAT o comprobante de domicilio fiscal a nombre de Iván Fernández Montiel.</div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 4 — Registrar número de WhatsApp Business API</div>
+        <div class="rm-desc">Usar un número telefónico <strong>exclusivo para el vivero</strong> (249 151 9638 u otro). Importante: ese número NO debe estar activo en WhatsApp normal. Se desvincula en WhatsApp antes de registrarlo en Meta. El número se verifica con SMS o llamada.</div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 5 — Elegir proveedor de API (BSP)</div>
+        <div class="rm-desc">Recomendado para Odoo: <strong>360dialog</strong> (~$5-10 USD/mes) o Meta Cloud API directo (gratuita, más técnica). El proveedor entrega: API Key, Phone Number ID, WhatsApp Business Account ID.</div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 6 — Crear plantillas de mensajes en Meta</div>
+        <div class="rm-desc">Las plantillas para mensajes proactivos (tickets de pedidos) deben aprobarse en Meta Business Manager antes de usarse. Ejemplo de plantilla para ticket de pedido:
+          <br><br>
+          <em>"Hola {{nombre}}, tu pedido #{{num_pedido}} de {{cantidad}} charolas de {{especie}} ha sido confirmado. Fecha de entrega estimada: {{fecha}}. Vivero Chapasan."</em>
+          <br><br>
+          Meta revisa que las plantillas no sean promocionales en exceso. El proceso puede tomar de horas a 2 días.
+        </div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 7 — Configurar WhatsApp en Odoo</div>
+        <div class="rm-desc">En Odoo 16/17: Configuración → Técnico → WhatsApp → Cuentas de WhatsApp. Ingresar: Token de acceso (API Key del proveedor), Phone Number ID, WhatsApp Business Account ID, URL del webhook. Instalar módulo nativo <code>whatsapp</code> si no está instalado.</div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 8 — Configurar plantillas en Odoo y probar</div>
+        <div class="rm-desc">Crear las plantillas dentro de Odoo vinculadas a los modelos de pedidos/ventas. Hacer prueba end-to-end: pedido en Odoo → ticket enviado por WhatsApp al cliente.</div>
+      </li>
+      <li>
+        <div class="rm-title">FASE 9 — Monitoreo de calidad del número</div>
+        <div class="rm-desc">Meta asigna una calificación de calidad al número (Alta/Media/Baja). Si los clientes bloquean el número, la calificación baja y Meta puede limitar o suspender el envío de mensajes. Monitorear en Meta Business Manager → Administrador de WhatsApp.</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- REFERENCIA TÉCNICA -->
+<div class="section" id="credenciales">
+  <div class="section-header"><div class="num">📎</div><h2>Referencia Técnica Rápida</h2></div>
+  <div class="section-body">
+    <table>
+      <tr><th>Elemento</th><th>Valor / URL</th></tr>
+      <tr><td>Dominio principal</td><td>zenda-arquitectos.com</td></tr>
+      <tr><td>Registrador de dominio</td><td>Namecheap</td></tr>
+      <tr><td>Hosting</td><td>Hostinger (plan Single – Website Builder)</td></tr>
+      <tr><td>Nameservers activos</td><td>Hostinger (ns1.dns-parking.com / ns2.dns-parking.com)</td></tr>
+      <tr><td>DNS Manager</td><td>hPanel Hostinger → Dominios → Administrar DNS</td></tr>
+      <tr><td>Subdominio vivero</td><td>vivero.zenda-arquitectos.com → CNAME → ivanfdzm.github.io</td></tr>
+      <tr><td>Email principal</td><td>contacto@zenda-arquitectos.com (buzón Hostinger)</td></tr>
+      <tr><td>Email vivero</td><td>vivero@zenda-arquitectos.com (alias → contacto@)</td></tr>
+      <tr><td>GitHub usuario</td><td>ivanfdzm</td></tr>
+      <tr><td>Repositorio</td><td>github.com/ivanfdzm/vivero-chapasan</td></tr>
+      <tr><td>GitHub Pages URL</td><td>https://ivanfdzm.github.io/vivero-chapasan/</td></tr>
+      <tr><td>URL final vivero</td><td>https://vivero.zenda-arquitectos.com</td></tr>
+      <tr><td>Teléfono vivero</td><td>249 151 9638</td></tr>
+      <tr><td>Ubicación</td><td>Tecamachalco, Puebla, México</td></tr>
+    </table>
+    <div class="alert danger" style="margin-top:1rem"><span class="alert-icon">🔒</span><div>Este documento es de uso interno. No compartir públicamente credenciales ni datos sensibles de configuración.</div></div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p>Documentación generada el <strong>6 de mayo de 2026</strong> · Proyecto: Vivero Chapasan – Integración WhatsApp API Odoo</p>
+  <p style="margin-top:.3rem">Iván Fernández Montiel · <a href="https://vivero.zenda-arquitectos.com">vivero.zenda-arquitectos.com</a></p>
+</footer>
+
+</body>
+</html>
